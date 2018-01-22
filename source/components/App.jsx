@@ -3,11 +3,16 @@ import PropTypes from 'prop-types';
 import Todos from './Todos.jsx';
 import InputForm from './InputForm.jsx';
 
+import { increment, decrement } from '../appRedux/reducers/userReducer';
+import { todoActions } from '../appRedux/reducers/todoReducer';
+
+// todoActions();
+import { connect } from 'react-redux';
+
 class App extends Component {
     constructor(...args) {
         super(...args);
         this.state = {
-            url: 'http://localhost:3000/api/todos/',
             todos:[],
             errors: [],
             successMsgs: [],
@@ -102,10 +107,51 @@ class App extends Component {
         return (
             <div className="container mt-lg-3">
                 <InputForm  errors = { this.state.errors } successMsgs = {this.state.successMsgs } todoInputValue={ this.state.todoInputValue } todoSubmitAction={ this.state.todoSubmitAction } updateInputValue={ this.updateInputValue } />
-                <Todos todos = { this.state.todos } url={ this.state.url } editTodo={ this.editTodo } deleteTodo={ this.deleteTodo }/>
+                <Todos todos = { this.state.todos } editTodo={ this.editTodo } deleteTodo={ this.deleteTodo }/>
             </div>
         );
     }
 }
 
 export default App;
+
+// ----------------------------REDUX-----------------------------------------
+// class App extends Component {
+//     componentWillMount() {
+//         // console.log(this.props.updateUser());
+//     }
+//     render() {
+//         return (
+//             <div className="App">
+//                 <header className="App-header">
+//                     <p>Logo replaced with paragraph</p>
+//                     <h1 className="App-title">Welcome to React</h1>
+//                 </header>
+//                 <p className="App-intro">
+//                     {this.props.counter}
+//                 </p>
+//                 <button onClick={this.props.increment}>increment</button>
+//                 <button onClick={this.props.decrement}>Decrement</button>
+//             </div>
+//         );
+//     }
+// }
+//
+//
+// function mapStateToProps(state) {
+//     return {
+//         counter: state,
+//     };
+// }
+//
+// function mapDispatchToProps(dispatch) {
+//     return {
+//         increment: () => dispatch(increment()),
+//         decrement: () => dispatch(decrement())
+//     };
+// }
+//
+// export default connect(
+//     mapStateToProps,
+//     mapDispatchToProps
+// )(App);

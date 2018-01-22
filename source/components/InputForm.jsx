@@ -1,5 +1,6 @@
 import React, { Component, PureComponent } from 'react';
 import PropTypes from 'prop-types';
+const url = 'http://localhost:3000/api/todos/';
 
 class InputForm extends Component {
     constructor(...args) {
@@ -22,7 +23,7 @@ class InputForm extends Component {
                     <div>
                         {this.props.successMsgs.map((success, i) => <Success key = { this.generateId } success = { success } />)}
                     </div>
-                    <form action={ this.props.url } method="POST" >
+                    <form action={ url } method="POST" >
                         <div className="form-group">
                             <label htmlFor="todo">Todo Content</label>
                             <input type="text" className="form-control" id="todo" name="content" placeholder="Enter todo"  value={ this.props.todoInputValue } onChange={this.props.updateInputValue} />
@@ -55,14 +56,12 @@ function Success (props) {
 
 }
 InputForm.propTypes = {
-    url: PropTypes.string.isRequired,
     errors: PropTypes.array.isRequired,
     todoInputValue: PropTypes.string,
     updateInputValue: PropTypes.func.isRequired,
     todoSubmitAction: PropTypes.func.isRequired,
 };
 InputForm.defaultProps = {
-    url: 'http://localhost:3000/api/todos/',
     errors: [],
     todoInputValue: '',
 };
