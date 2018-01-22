@@ -21,9 +21,7 @@ class App extends Component {
         fetch(this.state.url)
             .then((res) => res.json())
             .then((data) => {
-                this.setState({ todos: data.todos })
-                this.setState({ errors: data.errors })
-                this.setState({ successMsgs: data.successMsgs })
+                this.setState({ todos: data.todos, errors: data.errors, successMsgs: data.successMsgs  })
             })
             .catch(console.error);
 
@@ -34,9 +32,7 @@ class App extends Component {
     //Todo edit button pressed
     editTodo = (evt) => {
         const editTodoUrl = evt.target.parentElement.action;
-        this.setState({ todoInputValue: evt.target.dataset.content });
-        this.setState({ editTodoUrl: editTodoUrl });
-        this.setState({ todoSubmitAction: this.submitEditTodo });
+        this.setState({ todoInputValue: evt.target.dataset.content, editTodoUrl: editTodoUrl, todoSubmitAction: this.submitEditTodo });
     };
     addTodo = (evt) => {
         evt.preventDefault();
@@ -49,10 +45,7 @@ class App extends Component {
         })
             .then((res) => res.json())
             .then((data) => {
-                this.setState({ todos: data.todos });
-                this.setState({ errors: data.errors });
-                this.setState({ successMsgs: data.successMsgs });
-                this.setState({ todoInputValue: '' });
+                this.setState({ todos: data.todos, errors: data.errors, successMsgs: data.successMsgs, todoInputValue: ''  });
             })
             .catch((error) => {
                 this.setState({ errors: [{ msg: 'Something went wrong' }] });
@@ -70,12 +63,7 @@ class App extends Component {
         })
             .then((res) => res.json())
             .then((data) => {
-                this.setState({ todos: data.todos });
-                this.setState({ errors: data.errors });
-                this.setState({ successMsgs: data.successMsgs });
-                this.setState({ editTodoUrl: '' });
-                this.setState({ todoInputValue: '' });
-                this.setState({ todoSubmitAction: this.addTodo });
+                this.setState({ todos: data.todos, errors: data.errors, successMsgs: data.successMsgs, editTodoUrl: '', todoInputValue: '', todoSubmitAction: this.addTodo  });
             })
             .catch((error) => {
                 this.setState({ errors: [{ msg: 'Something went wrong' }] });
@@ -89,9 +77,7 @@ class App extends Component {
         })
         .then((res) => res.json())
         .then((data) => {
-            this.setState({ todos: data.todos });
-            this.setState({ errors: data.errors });
-            this.setState({ successMsgs: data.successMsgs });
+            this.setState({ todos: data.todos, errors: data.errors, successMsgs: data.successMsgs });
         })
        .catch((error) => {
            this.setState({ errors: [{ msg: 'Something went wrong' }] });
