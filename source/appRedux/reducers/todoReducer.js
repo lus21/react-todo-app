@@ -1,4 +1,8 @@
-import { GET_TODOS, ADD_TODO, UPDATE_TODO, DELETE_TODO } from "./todoActions";
+const GET_TODOS = 'Get all todos',
+      ADD_TODO = 'Add todo',
+      UPDATE_TODO = 'Update todo',
+      DELETE_TODO = 'Delete todo';
+
 const url = 'http://localhost:3000/api/todos/';
 
 const initialState = {
