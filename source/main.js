@@ -6,12 +6,12 @@ import './styles/index.less';
 import { Provider } from 'react-redux';
 import store from './appRedux/store';
 
-ReactDOM.render(<App />, document.getElementById('app'));
+// ReactDOM.render(<App />, document.getElementById('app')); //React witout Redux
 
-// REDUX
-// ReactDOM.render(
-//     <Provider store={store}>
-//         <App />
-//     </Provider>,
-//     document.getElementById('app')
-// );
+// With REDUX
+ReactDOM.render(
+    <Provider store={store}>
+        <App />
+    </Provider>,
+    document.getElementById('app')
+);

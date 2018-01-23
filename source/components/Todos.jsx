@@ -1,4 +1,4 @@
-import React, { Component, PureComponent } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 const url = 'http://localhost:3000/api/todos/';
 

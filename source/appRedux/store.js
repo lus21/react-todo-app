@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
-import reducer from './reducers/userReducer';
+import reducer from './reducers/todoReducer';
 
 const store = createStore(
     reducer,
@@ -8,5 +8,8 @@ const store = createStore(
         thunk
     )
 );
-
+// store.subscribe(() => {
+//     console.log('Store has been changed');
+//     console.log(store.getState());
+// });
 export default store;

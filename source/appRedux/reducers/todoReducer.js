@@ -1,65 +1,134 @@
 import { GET_TODOS, ADD_TODO, UPDATE_TODO, DELETE_TODO } from "./todoActions";
-const url = 'http://localhost:3000/';
-
-export function todoActions() {
-    console.log('todoActions');
-    console.log(GET_TODOS, ADD_TODO, UPDATE_TODO, DELETE_TODO )
-}
+const url = 'http://localhost:3000/api/todos/';
 
 const initialState = {
-    todos: [] // TodosReducer
+    todos: [],
+    errors: [],
+    successMsgs: [],
 };
 
-export function getTodos() {
+function getTodos(result) {
     return {
         type: GET_TODOS,
-        payload: { url, method: 'GET' }
+        payload: { todos: result.todos, errors:result.errors, successMsgs:result.successMsgs }
     };
 }
 
-export function addTodo(todo) {
+function addTodo(result) {
     return {
-        type: GET_TODOS,
-        payload: { url, method: 'POST', todo }
+        type: ADD_TODO,
+        payload: { todos: result.todos, errors:result.errors, successMsgs:result.successMsgs }
     };
 }
 
-export function updateTodo(_id, todo) {
+function updateTodo(result) {
     return {
         type: UPDATE_TODO,
-        payload: { url: url + _id, method: 'PUT', todo }
+        payload: { todo: result.todo, errors:result.errors, successMsgs:result.successMsgs }
     };
 }
 
-export function deleteTodo(_id) {
+function deleteTodo(result) {
     return {
         type: DELETE_TODO,
-        payload: { url: url + _id, method: 'DELETE' }
+        payload: { todo: result.todo, errors:result.errors, successMsgs:result.successMsgs }
     };
 }
 
-function fetchAsyncData() {
+
+export function asyncGetTodos() {
     return function(dispatch) {
-        fetch(url,)
+        fetch(url)
             .then((res) => res.json())
-            .then(result => dispatch(addAsyncData(result)))
+            .then(result => {
+                dispatch(getTodos(result))
+            })
+    }
+}
+export function asyncAddTodo(body) {
+    return function(dispatch) {
+        fetch(url, {
+            method: 'POST',
+            body: JSON.stringify(body),
+            headers: {
+                "Content-Type": "application/json"
+            },
+        })
+            .then((res) => res.json())
+            .then(result => {
+                dispatch(addTodo(result))
+            })
+    }
+}
+export function asyncUpdateTodo(url, body) {
+    return function(dispatch) {
+        fetch(url, {
+            method: 'PUT',
+            body: JSON.stringify(body),
+            headers: {
+                "Content-Type": "application/json"
+            },
+        })
+            .then((res) => res.json())
+            .then(result => {
+                dispatch(updateTodo(result))
+            })
+    }
+}
+export function asyncDeleteTodo(url) {
+    return function(dispatch) {
+        fetch(url, {
+            method: 'DELETE',
+        })
+            .then((res) => res.json())
+            .then(result => {
+                dispatch(deleteTodo(result))
+            })
     }
 }
 /**
  * Reducer
  */
-export default function(state = initialState.todos, action) {
+export default function(state = initialState, action) {
     const { type, payload } = action;
 
     switch (type) {
         case GET_TODOS:
-            return state + 1;
+            return {
+                ...state,
+                todos: [...state.todos, ...payload.todos],
+                errors: payload.errors,
+                successMsgs: payload.successMsgs
+            };
         case ADD_TODO:
-            return state + 1;
+            console.log('reducer ADD_TODO')
+            return {
+                ...state,
+                todos: [...state.todos, ...payload.todos],
+                errors: payload.errors,
+                successMsgs: payload.successMsgs
+            };
         case UPDATE_TODO:
-            return state + 1;
+            const updatedTodos = state.todos.map((todo) => {
+                if (todo._id == payload.todo._id) {
+                    todo.content = payload.todo.content;
+                }
+                return todo;
+            });
+            return {
+                ...state,
+                todos: updatedTodos,
+                errors: payload.errors,
+                successMsgs: payload.successMsgs
+            };
         case DELETE_TODO:
-            return state - 1;
+            const todosAfterDelete = state.todos.filter(todo => todo._id !== payload.todo._id);
+            return {
+                ...state,
+                todos: state.todos.filter(todo => todo._id !== payload.todo._id),
+                errors: payload.errors,
+                successMsgs: payload.successMsgs
+            };
         default:
             return state;
     }

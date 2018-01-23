@@ -1,39 +1,26 @@
-import React, { Component, PureComponent } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 const url = 'http://localhost:3000/api/todos/';
 
-class InputForm extends Component {
-    constructor(...args) {
-        super(...args);
-        this.state = {
-            keysId: 0,
-        };
-    };
-    generateId = () => {
-        this.setState( { keysId: this.state.keys + 1 });
-        return this.state.keysId;
-    };
-    render() {
-        return(
-            <div className="row">
+function InputForm (props) {
+    return <div className="row">
                 <div className="col-4">
                     <div>
-                        {this.props.errors.map((error, i) => <Error key = { this.generateId } error = { error } />)}
+                        { props.errors.map((error, i) => <Error key = { error } error = { error } />)}
                     </div>
                     <div>
-                        {this.props.successMsgs.map((success, i) => <Success key = { this.generateId } success = { success } />)}
+                        { props.successMsgs.map((success, i) => <Success key = { success } success = { success } />)}
                     </div>
                     <form action={ url } method="POST" >
                         <div className="form-group">
                             <label htmlFor="todo">Todo Content</label>
-                            <input type="text" className="form-control" id="todo" name="content" placeholder="Enter todo"  value={ this.props.todoInputValue } onChange={this.props.updateInputValue} />
+                            <input ref={ props.inputRef}  type="text"  className="form-control" id="todo" name="content" placeholder="Enter todo"  />
                         </div>
-                        <button type="submit" className="btn btn-success" onClick={ this.props.todoSubmitAction }>Submit</button>
+                        <button type="submit" className="btn btn-success" onClick={ props.todoSubmitAction }>Submit</button>
                     </form>
                 </div>
-            </div>
-        )
-    }
+        </div>
+
 }
 
 function Error (props) {
@@ -57,13 +44,10 @@ function Success (props) {
 }
 InputForm.propTypes = {
     errors: PropTypes.array.isRequired,
-    todoInputValue: PropTypes.string,
-    updateInputValue: PropTypes.func.isRequired,
     todoSubmitAction: PropTypes.func.isRequired,
 };
 InputForm.defaultProps = {
     errors: [],
-    todoInputValue: '',
 };
 Error.propTypes = {
     error: PropTypes.object.isRequired,
